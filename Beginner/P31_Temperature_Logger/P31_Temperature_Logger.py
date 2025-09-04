@@ -2,7 +2,7 @@ import os
 import csv
 
 def create_csv():
-    folder_path = r"C:\Users\Pratyaksh\Desktop\1000+ Projects\1-Python\Beginner\P31_Temperature_Logger" # <- Replace with your path
+    folder_path = f"{os.getcwd()}" # <- Replace with your path
     file_name = "Patient.csv"
     destination_path = os.path.join(folder_path, file_name)
 
@@ -16,13 +16,23 @@ def create_csv():
 def temp_logger():
     try:
         patient_name = input("Name: ").strip().capitalize()
-        age = int(input("Age: "))
+        age = float(input("Age: "))
         temp = float(input("Temperature in °C: "))
 
         with open(create_csv(), "a", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow([patient_name, age, temp])
-        print("Data saved ✅")
+            if age>0.0 and age<105.0:
+                if temp > 31.0 and temp < 50.0:
+                    if patient_name.isalpha():
+                        writer.writerow([patient_name, age, temp])
+                        print("Data saved ✅")
+                    else:
+                        print("Invalid Name")
+                else:
+                    print("Invalid Temperature")
+            else:
+                print("Invalid Age")
+        
 
     except ValueError:
         print("Invalid input, please enter correct data.")
